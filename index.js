@@ -27,8 +27,7 @@ app.post('/upload', upload.single('myfile'), async (req, res) => {
 
 // get file
 app.get('/files/:key', (req, res) => {
-	const fileKey = req.params.key
-	const readStream = s3.getFileStream(fileKey)
+	const readStream = s3.getFileStream(req.params.key)
 	readStream.pipe(res)
 })
 
