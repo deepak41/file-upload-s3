@@ -6,6 +6,7 @@ const fs = require('fs');
 const unlinkFile = require('util').promisify(fs.unlink);
 
 const app = express();
+app.use(express.json()); 
 
 
 // home page
@@ -25,10 +26,20 @@ app.post('/upload', upload.single('myfile'), async (req, res) => {
 });
 
 
-// get file
-app.get('/files/:key', (req, res) => {
-	const readStream = s3.getFileStream(req.params.key)
+// download file
+app.post('/file', (req, res) => {
+	const readStream = s3.getFileStream(req.body.key)
 	readStream.pipe(res)
 })
 
-app.listen(3000, () => console.log("The server is running at localhost:3000"));
+
+// delete file
+app.post('/delete', async(req, res) => {
+	const result = await s3.deleteFile(req.body.key);
+	res.json({
+		message: "File deleted successfully!",
+		data: {file: req.body.key}
+	})
+})
+
+app.listen(7011, () => console.log("The server is running at localhost:7011"));
