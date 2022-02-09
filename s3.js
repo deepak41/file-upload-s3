@@ -19,7 +19,7 @@ function uploadFile(file) {
 	const params = {
 		Bucket: bucketName,
 		Body: fileStream,
-		Key: file.filename
+		Key: 'my-files/' + file.originalname
 	}
 	return s3.upload(params).promise()
 }
@@ -27,14 +27,24 @@ function uploadFile(file) {
 // downloads a file from s3
 function getFileStream(fileKey) {
 	const params = {
-		Key: fileKey,
-		Bucket: bucketName
+		Bucket: bucketName,
+		Key: fileKey
 	}
 	return s3.getObject(params).createReadStream()
+}
+
+// deletes a file from s3
+function deleteFile(fileName) {
+	const params = {
+		Bucket: bucketName,
+		Key: fileName,  // my-files/img25.png
+	};
+	return s3.deleteObject(params).promise()
 }
 
 
 module.exports = {
 	uploadFile,
-	getFileStream
+	getFileStream,
+	deleteFile
 }
