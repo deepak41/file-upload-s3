@@ -6,9 +6,7 @@
 1. Clone the project  
 
 2. Then enter the following commands:     
-'''
-$ npm i  
-$ nodemon  
-'''
+`$ npm i`  
+`$ nodemon`  
 
 The app should be up and running. 
